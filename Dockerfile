@@ -29,10 +29,10 @@ FROM alpine:latest
 WORKDIR /app
 
 RUN apk update && \
-    apk add --update libgit2 libssh2
+    apk add --update libgit2 libssh2 openssh-client
 
 COPY --from=builder /go/src/github.com/neel1996/gitconvex/dist .
 
 EXPOSE 9001
 
-CMD ["./gitconvex"]
+CMD ["/bin/sh", "-c", "eval `ssh-agent -s` && ./gitconvex"]
